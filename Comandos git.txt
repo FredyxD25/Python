@@ -1,0 +1,10 @@
+//Se ejecutan una vez
+git config --global user.email "fredy.esteban25@hotmail.com"
+git config --global user.name "FredyxD25"
+
+//Actualizar codigo
+git add .
+git commit -m "Cambios en el codigo"
+git push origin main
+
+
