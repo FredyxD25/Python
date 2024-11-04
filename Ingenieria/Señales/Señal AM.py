@@ -1,44 +1,50 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Parámetros
-fs = 100  # Frecuencia de muestreo
-t = np.arange(0, 0.1, fs)  # Tiempo de 0 a 1 segundo
+# Parámetros de la señal
+fs = 10000  # Frecuencia de muestreo
+t = np.arange(0, 1, 1/fs)  # Tiempo de 0 a 1 segundo
 
-# Frecuencia de la portadora (1000 kHz)
-fc = 1000  # Frecuencia de la portadora
-carrier = np.cos(2 * np.pi * fc * t)
+# Frecuencias
+fc = 1000  # Frecuencia de la portadora (Hz)
+fm = 100   # Frecuencia de la señal mensaje (Hz)
 
-# Frecuencia de la señal de audio (5 Hz)
-fa = 1000  # Frecuencia de la señal de audio
-audio_signal = 0.5 * np.sin(2 * np.pi * fa * t)  # Señal de audio normalizada
+# Señales
+carrier = np.cos(2 * np.pi * fc * t)  # Señal portadora
+message = 0.5 * np.cos(2 * np.pi * fm * t)  # Señal mensaje (amplitud 0.5)
 
-# Modulación en amplitud
-am_signal = (1 + audio_signal) * carrier
+# Señal AM
+am_signal = (1 + message) * carrier  # Modulación AM
 
 # Graficar las señales
 plt.figure(figsize=(12, 8))
 
-# Onda portadora
+# Señal Mensaje
 plt.subplot(3, 1, 1)
-plt.plot(t, carrier)
-plt.title('Onda Portadora (10000 Hz)')
+plt.plot(t, message, color='blue')
+plt.title('Señal Mensaje')
 plt.xlabel('Tiempo (s)')
 plt.ylabel('Amplitud')
+plt.xlim(0,0.05)
+plt.grid()
 
-# Señal de audio
+# Señal Portadora
 plt.subplot(3, 1, 2)
-plt.plot(t, audio_signal)
-plt.title('Señal de Audio (1000 Hz)')
+plt.plot(t, carrier, color='red')
+plt.title('Señal Portadora')
 plt.xlabel('Tiempo (s)')
 plt.ylabel('Amplitud')
+plt.xlim(0,0.05)
+plt.grid()
 
 # Señal AM
 plt.subplot(3, 1, 3)
-plt.plot(t, am_signal)
-plt.title('Señal Modulada en Amplitud (AM)')
+plt.plot(t, am_signal, color='green')
+plt.title('Señal AM (Modulada)')
 plt.xlabel('Tiempo (s)')
 plt.ylabel('Amplitud')
+plt.xlim(0,0.05)
+plt.grid()
 
 plt.tight_layout()
 plt.show()
