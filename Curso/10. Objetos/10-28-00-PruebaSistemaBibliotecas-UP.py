@@ -1,5 +1,5 @@
-from sistema_bibliotecas.biblioteca import Biblioteca
-from sistema_bibliotecas.libro import Libro
+from PruebaSistemaBibliotecas.biblioteca import Biblioteca
+from PruebaSistemaBibliotecas.libro import Libro
 
 bibliotecaNacional = Biblioteca('Biblioteca Nacional')
 print(f'*** Bienvenidos a la {bibliotecaNacional.nombre} ***')
