@@ -7,10 +7,11 @@ carrier_frequency = 10      # Frecuencia de la señal portadora (Hz)
 amplitude_high = 1          # Amplitud para el bit 1
 amplitude_low = 0           # Amplitud para el bit 0 (silencio en el bit 0)
 sample_rate = 1000          # Frecuencia de muestreo
-bit_duration = 1 / bit_rate # Duración de cada bit en segundos
+bit_duration = np.pi            # Duración de cada bit en segundos
+w = 1
 
-# Mensaje binario a modular (puedes cambiarlo)
-message = [1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1]
+# Mensaje binario a modular 
+message = [1, 0, 1, 1, 1, 0, 0, 1, 0, 1]
 
 # Generación del tiempo total de la señal
 t_total = np.linspace(0, bit_duration * len(message), int(sample_rate * bit_duration * len(message)), endpoint=False)
@@ -28,7 +29,7 @@ for i, bit in enumerate(message):
     
     # Modulación ASK: ajustamos la amplitud según el valor del bit
     if bit == 1:
-        ask_signal[i * int(sample_rate * bit_duration):(i + 1) * int(sample_rate * bit_duration)] = amplitude_high * np.cos(2 * np.pi * carrier_frequency * t_bit)
+        ask_signal[i * int(sample_rate * bit_duration):(i + 1) * int(sample_rate * bit_duration)] = amplitude_high * np.sin(1 * w * carrier_frequency * t_bit)
         binary_signal[i * int(sample_rate * bit_duration):(i + 1) * int(sample_rate * bit_duration)] = 1  # Representación de bit alto
     else:
         ask_signal[i * int(sample_rate * bit_duration):(i + 1) * int(sample_rate * bit_duration)] = amplitude_low
