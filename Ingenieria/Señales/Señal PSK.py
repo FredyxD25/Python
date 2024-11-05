@@ -1,10 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Parámetros de la señal
-carrier_frequency = 1     # Frecuencia de la portadora
-sample_rate = 1000      # Frecuencia de muestreo
-bit_duration = np.pi   # Duración de cada bit en segundos
+# Parámetros de la señal PSK
+carrier_frequency = 1       # Frecuencia de la portadora
+
+# Parámetros Universales
+sample_rate = 1000          # Frecuencia de muestreo
+bit_duration = np.pi        # Duración de cada bit en segundos
 w = 1      
 
 # Mensaje binario a modular 

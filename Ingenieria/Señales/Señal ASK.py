@@ -1,11 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Parámetros
-bit_rate = 1                # Frecuencia de bits (bits por segundo)
+# Parámetros de la señal ASK
 carrier_frequency = 10      # Frecuencia de la señal portadora (Hz)
 amplitude_high = 1          # Amplitud para el bit 1
 amplitude_low = 0           # Amplitud para el bit 0 (silencio en el bit 0)
+
+# Parámetros Universales
 sample_rate = 1000          # Frecuencia de muestreo
 bit_duration = np.pi            # Duración de cada bit en segundos
 w = 1
