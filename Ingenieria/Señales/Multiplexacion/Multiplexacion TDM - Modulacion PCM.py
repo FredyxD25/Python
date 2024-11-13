@@ -178,7 +178,7 @@ def grafica(señal_original_sinusoidal,señal_normalizada_sinusoidal,señal_orig
     colors = ['g', 'm', 'r' , 'orange'] * (len(señal_modulada) // 1)
     for i in range(len(señal_modulada)):
         plt.stem(t[i], señal_modulada[i], linefmt=colors[i // 1] , basefmt=" ")
-    plt.title(f'Señal Modulada con señal sinusoidal, triangular, cuadrada y diente de sierra con {bits_por_muestra} bits')
+    plt.title(f'Señal Multiplexada con señal sinusoidal, triangular, cuadrada y diente de sierra con {bits_por_muestra} bits')
     plt.ylim(-2,35)
     plt.grid(True)
 
