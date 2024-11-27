@@ -1,12 +1,5 @@
 import machine
-import numpy as np
-
-#pip install nes-py
-# pip install Cmake
-#pip install -U micropython-stm32-stubs
-#pip install setuptools wheel
-#pip isntall machine
-
+import time
 
 # Parámetros de la señal ASK
 carrier_frequency = 10      # Frecuencia de la señal portadora (Hz)
@@ -17,7 +10,7 @@ amplitude_low = 0           # Amplitud para el bit 0 (silencio en el bit 0)
 sample_rate = 1000          # Frecuencia de muestreo
 bit_duration = np.pi            # Duración de cada bit en segundos
 w = 1
- 
+
 # Mensaje binario a modular 
 message = [1, 0, 1, 1, 1, 0, 0, 1, 0, 1]
 
@@ -42,29 +35,6 @@ for i, bit in enumerate(message):
     else:
         ask_signal[i * int(sample_rate * bit_duration):(i + 1) * int(sample_rate * bit_duration)] = amplitude_low
         binary_signal[i * int(sample_rate * bit_duration):(i + 1) * int(sample_rate * bit_duration)] = 0  # Representación de bit bajo
-'''
-# Visualización de la señal ASK y la señal binaria
-plt.figure(figsize=(12, 6))
-
-# Graficar la señal binaria
-plt.subplot(2, 1, 1)
-plt.plot(t_total, binary_signal, drawstyle='steps-pre', color='r')
-plt.title("Señal Binaria")
-plt.xlabel("Tiempo (s)")
-plt.ylabel("Amplitud")
-plt.ylim(-0.2, 1.2)
-plt.grid(True)
-
-# Añadir etiquetas de bits (0 o 1) en la señal binaria
-for i, bit in enumerate(message):
-    plt.text(i * bit_duration + bit_duration / 2, 0.5, str(bit), ha='center', va='center', color='red', fontsize=12, fontweight='bold')
-
-# Graficar la señal ASK
-plt.subplot(2, 1, 2)
-plt.plot(t_total, ask_signal)
-plt.title("Modulación ASK (Amplitude Shift Keying)")
-plt.xlabel("Tiempo (s)")
-plt.ylabel("Amplitud")
-plt.grid(True)
-plt.tight_layout()
-plt.show()'''
+while(True):
+    time.sleep_ms(100)
+    print("Adios")
