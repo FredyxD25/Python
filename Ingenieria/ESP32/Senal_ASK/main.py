@@ -49,7 +49,7 @@ def zeros_like(arr):
     return 0  # Para los casos donde arr es una lista de un solo nivel.
 
 # Generación del tiempo total de la señal
-t_total = linspace(0, bit_duration * 8, int(sample_rate * bit_duration * 8))
+t_total = linspace(0, bit_duration * 8, sample_rate * bit_duration * 8)
 
 # Inicialización de la señal ASK y la señal binaria
 ask_signal = zeros_like(t_total)
@@ -72,4 +72,4 @@ for i, bit in enumerate(message):
         
 while(True):
     time.sleep_ms(100)
-    print("Adios")
+    #print("Adios")
