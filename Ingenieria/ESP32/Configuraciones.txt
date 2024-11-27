@@ -67,5 +67,33 @@ def do_connect():
             pass
     print('network config:', sta_if.ipconfig('addr4'))
 
-mip.install(micropython-numpy, index="https://github.com/ComplexArts/micropython-numpy.git")
-mpremote connect com3 mip install --index https://ComplexArts.github.io/micropython-numpy/master scr
+----------------
+ instalar numpy
+----------------
+https://github.com/ComplexArts/micropython-numpy?tab=readme-ov-file -- Descargar ZIP y descomprimir en la carpeta raiz
+
+pip install adafruit-ampy
+ls
+mpremote connect com3 fs put numpy.py
+mpremote connect com3 fs cp -r ./numpy :
+mpremote connect com3 fs ls
+mpremote connect com3 fs mv micropython-numpy numpy
+mpremote connect com3 fs ls
+mpremote connect com3 repl -- conectar a ESP32
+
+-Cambiar nobmre carpeta en ESP32
+mpremote connect com3 fs cp -r micropython-numpy numpy
+mpremote connect com3 fs rm -r micropython-numpy
+
+---Eliminar folders----
+def list_all(folder="."):
+    for item in os.listdir(folder):
+        path = folder + "/" + item
+        print(path)
+        try:
+            if os.stat(path)[0] & 0x4000:  # Si es una carpeta
+                list_all(path)
+        except OSError as e:
+            print(f"No se pudo acceder a {path}: {e}")
+
+list_all()
