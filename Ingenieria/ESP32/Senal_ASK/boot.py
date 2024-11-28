@@ -1,5 +1,4 @@
 # boot.py -- run on boot-up
-
 def conexion_espera():
     contador=0
     while not sta_if.isconnected():
