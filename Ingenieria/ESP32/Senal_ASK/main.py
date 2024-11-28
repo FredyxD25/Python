@@ -7,6 +7,8 @@ duty_cycle_on = 512       # Ciclo de trabajo para señal alta (máximo es 1023)
 duty_cycle_off = 0        # Ciclo de trabajo para señal baja
 pin_pwm = 25              # Pin donde se genera la señal PWM (ajustar según hardware)
 
+
+
 # Configuración del PWM en el pin
 pwm = PWM(Pin(pin_pwm))
 pwm.freq(carrier_frequency)
