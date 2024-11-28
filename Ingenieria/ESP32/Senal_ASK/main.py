@@ -42,17 +42,13 @@ try:
         time.sleep(1)  # Pausa entre transmisiones
         print("Iniciando el muestreo de la senal...")
 
-        try:
-            for _ in range(num_samples):
-                sample = adc.read()  # Leer el valor analógico
-                samples.append(sample)  # Guardar la muestra
-                time.sleep(sampling_interval)  # Esperar el tiempo de muestreo
+        for _ in range(num_samples):
+            sample = adc.read()  # Leer el valor analógico
+            samples.append(sample)  # Guardar la muestra
+            time.sleep(sampling_interval)  # Esperar el tiempo de muestreo
 
-            print("Muestreo completado.")
-            print("Datos capturados:", samples)
-
-        except KeyboardInterrupt:
-            print("Muestreo interrumpido por el usuario.")
+        print("Muestreo completado.")
+        print("Datos capturados:", samples)
 
 except KeyboardInterrupt:
     pwm.deinit()  # Apaga el PWM al terminar
