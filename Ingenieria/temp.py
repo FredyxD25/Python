@@ -1,67 +1,55 @@
-import numpy as np
-import matplotlib.pyplot as plt
+from machine import Pin, PWM, ADC
+import time
 
-# Función para generar la matriz de Walsh-Hadamard con dimensiones personalizadas
-def walsh_hadamard_matrix(rows, cols):
-    n = max(rows, cols)
-    n = 1 << (n - 1).bit_length()
-    
-    # Genera la matriz de Walsh-Hadamard completa de tamaño n x n
-    H = np.array([[1]])
-    while H.shape[0] < n:
-        H = np.vstack((np.hstack((H, H)), np.hstack((H, -H))))
-    
-    # Selecciona solo las filas y columnas necesarias
-    return H[:rows, :cols]
+# Configuración del pin PWM
+carrier_frequency = 1000  # Frecuencia de la portadora en Hz
+duty_cycle_on = 512       # Ciclo de trabajo para señal alta (máximo es 1023)
+duty_cycle_off = 0        # Ciclo de trabajo para señal baja
+pin_pwm = 25              # Pin donde se genera la señal PWM (ajustar según hardware)
 
-# Configuración inicial
-num_users = 2  # Número de usuarios
-message_length = 8  # Longitud del mensaje en bits
 
-# Generación de mensajes binarios aleatorios para cada usuario
-messages = np.random.choice([1, -1], (num_users, message_length))
 
-# Generación de la matriz de Walsh-Hadamard de tamaño personalizado (2x8)
-codes = walsh_hadamard_matrix(2, message_length)
+# Configuración del PWM en el pin
+pwm = PWM(Pin(pin_pwm))
+pwm.freq(carrier_frequency)
+pwm.duty(duty_cycle_off)  # Inicialmente apagado
 
-# Expansión de los códigos para que coincidan con la longitud del mensaje
-codes_expanded = np.repeat(codes[:, np.newaxis], message_length, axis=1)
+# Configuración del ADC en el pin
+adc_pin = 36  # Pin para la entrada analógica (ajustar según el hardware)
+adc = ADC(Pin(adc_pin))  # Configura el pin como entrada analógica
+adc.atten(ADC.ATTN_11DB)  # Rango de lectura hasta ~3.6V
+adc.width(ADC.WIDTH_10BIT)  # Resolución de 10 bits (valores de 0 a 1023)
 
-# Codificación: cada mensaje se multiplica por su código expandido
-encoded_signals = np.array([messages[i] * codes_expanded[i] for i in range(num_users)])
+# Parámetros de muestreo
+sampling_frequency = 1000  # Frecuencia de muestreo en Hz
+sampling_interval = 1 / sampling_frequency  # Intervalo de muestreo en segundos
+num_samples = 100  # Número de muestras a capturar
 
-# Multiplexación: suma todas las señales codificadas
-multiplexed_signal = np.sum(encoded_signals, axis=0)
+# Almacenamiento de las muestras
+samples = []
+# Datos binarios que se transmitirán
+data = [1, 0, 1, 1, 0, 0, 1]  # Ejemplo de datos binarios
+bit_duration = 0.5  # Duración de cada bit en segundos
+muestras_maximas = 24
+try:
+    while True:
+        for bit in data:
+            if bit == 1:
+                pwm.duty(duty_cycle_on)  # Activa la portadora
+            else:
+                pwm.duty(duty_cycle_off)  # Desactiva la portadora
+            time.sleep(bit_duration)  # Mantiene el bit durante el tiempo especificado
+        time.sleep(1)  # Pausa entre transmisiones
+        print("Iniciando el muestreo de la senal...")
 
-# Decodificación: se multiplica la señal multiplexada por el código del usuario y luego se promedia
-decoded_messages = []
-for i in range(num_users):
-    decoded_message = multiplexed_signal * codes_expanded[i]
-    averaged_message = np.sign(np.sum(decoded_message.reshape((message_length, -1)), axis=1))
-    decoded_messages.append(averaged_message)
+        for _ in range(num_samples):
+            sample = adc.read()  # Leer el valor analógico
+            samples.append(sample)  # Guardar la muestra
+            time.sleep(sampling_interval)  # Esperar el tiempo de muestreo
 
-# Gráficos de las señales
-plt.figure(figsize=(12, 8))
+        print("Muestreo completado.")
+        print("Datos capturados:", samples)
 
-# Mensajes originales
-for i in range(num_users):
-    plt.subplot(3, num_users, i + 1)
-    plt.stem(range(message_length), messages[i])
-    plt.title(f"Mensaje original Usuario {i+1}")
-    plt.ylim(-1.5, 1.5)
-
-# Señales codificadas
-for i in range(num_users):
-    plt.subplot(3, num_users, num_users + i + 1)
-    plt.stem(range(message_length), encoded_signals[i])
-    plt.title(f"Señal codificada Usuario {i+1}")
-    plt.ylim(-1.5, 1.5)
-
-# Señal multiplexada
-plt.subplot(3, 1, 3)
-plt.stem(range(message_length), multiplexed_signal)
-plt.title("Señal Multiplexada")
-plt.ylim(-num_users - 0.5, num_users + 0.5)
-
-plt.tight_layout()
-plt.show()
+except KeyboardInterrupt:
+    pwm.deinit()  # Apaga el PWM al terminar
+    print("Modulación ASK finalizada.")

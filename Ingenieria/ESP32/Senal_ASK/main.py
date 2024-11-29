@@ -1,54 +1,41 @@
 from machine import Pin, PWM, ADC
+import math
 import time
 
 # Configuración del pin PWM
-carrier_frequency = 1000  # Frecuencia de la portadora en Hz
-duty_cycle_on = 512       # Ciclo de trabajo para señal alta (máximo es 1023)
-duty_cycle_off = 0        # Ciclo de trabajo para señal baja
-pin_pwm = 25              # Pin donde se genera la señal PWM (ajustar según hardware)
+pwm_pin = 25  # Pin donde se genera la señal PWM (ajustar según hardware)
+pwm_frequency = 1000  # Frecuencia base de la señal PWM en Hz
+pwm = PWM(Pin(pwm_pin))
+pwm.freq(pwm_frequency)
 
+# Parámetros de la señal sinusoidal
+sin_frequency = 100  # Frecuencia de la señal sinusoidal en Hz
+resolution = 1000  # Número de pasos para aproximar la onda (mayor = más suave)
+max_duty = 1023  # Ciclo de trabajo máximo permitido para PWM
+amplitude = max_duty // 2 # Amplitud máxima de la onda sinusoidal
+offset = max_duty // 2  # Offset para centrar la onda en el rango permitido
 
-
-# Configuración del PWM en el pin
-pwm = PWM(Pin(pin_pwm))
-pwm.freq(carrier_frequency)
-pwm.duty(duty_cycle_off)  # Inicialmente apagado
-
-# Configuración del ADC en el pin
-adc_pin = 36  # Pin para la entrada analógica (ajustar según el hardware)
-adc = ADC(Pin(adc_pin))  # Configura el pin como entrada analógica
-adc.atten(ADC.ATTN_11DB)  # Rango de lectura hasta ~3.6V
-adc.width(ADC.WIDTH_10BIT)  # Resolución de 10 bits (valores de 0 a 1023)
-
-# Parámetros de muestreo
-sampling_frequency = 1000  # Frecuencia de muestreo en Hz
-sampling_interval = 1 / sampling_frequency  # Intervalo de muestreo en segundos
-num_samples = 100  # Número de muestras a capturar
-
-# Almacenamiento de las muestras
-samples = []
+# Generar una tabla de valores sinusoidales
+sin_table = [int(offset + (amplitude-1) * math.sin(2 * math.pi * i / resolution)) for i in range(resolution)]
 # Datos binarios que se transmitirán
 data = [1, 0, 1, 1, 0, 0, 1]  # Ejemplo de datos binarios
-bit_duration = 0.5  # Duración de cada bit en segundos
-muestras_maximas = 24
+bit_duration = 1  # Duración de cada bit en segundos
+
 try:
     while True:
         for bit in data:
+            señales = 0
             if bit == 1:
-                pwm.duty(duty_cycle_on)  # Activa la portadora
+                print("Generando 1...")
+                for value in sin_table:
+                    while(señales<10):
+                        pwm.duty(value)  # Ajusta el ciclo de trabajo según la tabla
+                        señales += 1
+                        #time.sleep(1 / (sin_frequency * resolution))  # Tiempo entre pasos
             else:
-                pwm.duty(duty_cycle_off)  # Desactiva la portadora
+                print("Generando 0...")
+                pwm.duty(0)  # Desactiva la portadora
             time.sleep(bit_duration)  # Mantiene el bit durante el tiempo especificado
-        time.sleep(1)  # Pausa entre transmisiones
-        print("Iniciando el muestreo de la senal...")
-
-        for _ in range(num_samples):
-            sample = adc.read()  # Leer el valor analógico
-            samples.append(sample)  # Guardar la muestra
-            time.sleep(sampling_interval)  # Esperar el tiempo de muestreo
-
-        print("Muestreo completado.")
-        print("Datos capturados:", samples)
 
 except KeyboardInterrupt:
     pwm.deinit()  # Apaga el PWM al terminar
