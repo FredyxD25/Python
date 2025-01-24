@@ -35,24 +35,28 @@ received_symbols = np.fft.fft(received_signal, axis=0)
 # Normalización de los datos recibidos
 received_symbols /= np.sqrt(num_subcarriers)
 
-# Gráfica de la constelación
+# Gráfica de los fasores
 plt.figure(figsize=(8, 8))
-plt.scatter(received_symbols.real.flatten(), received_symbols.imag.flatten(), s=20, alpha=0.5, color="blue")
 
-# Dibujar círculos para unir puntos
-circle_radius = np.abs(received_symbols[0, :])  # Radio basado en el primer símbolo
-angles = np.linspace(0, 2 * np.pi, 100)
-for radius in np.unique(circle_radius):
-    x_circle = radius * np.cos(angles)
-    y_circle = radius * np.sin(angles)
-    plt.plot(x_circle, y_circle, linestyle='--', color='red', alpha=0.5)
+# Coordenadas de los fasores (QPSK)
+fasores = [1 + 1j, -1 + 1j, -1 - 1j, 1 - 1j]
 
+# Dibujar fasores hasta los puntos
+for fasor in fasores:
+    plt.quiver(0, 0, fasor.real, fasor.imag, angles='xy', scale_units='xy', scale=1, color='green', linewidth=0.5)
+    plt.scatter(fasor.real, fasor.imag, color='blue', s=50)  # Marcar los puntos de los fasores
+
+# Dibujar círculo unitario
+circle = plt.Circle((0, 0), np.sqrt(2)*np.cos(np.pi), color='red', fill=False, linestyle='--', linewidth=1)
+plt.gca().add_artist(circle)
 
 plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
 plt.axvline(0, color='black', linewidth=0.5, linestyle='--')
 plt.grid(color='gray', linestyle='--', linewidth=0.5)
-plt.title("Diagrama de Constelación (QPSK)")
+plt.title("Fasores (QPSK)")
 plt.xlabel("Parte Real")
 plt.ylabel("Parte Imaginaria")
 plt.axis('equal')
+plt.xlim(-1.5, 1.5)
+plt.ylim(-1.5, 1.5)
 plt.show()
