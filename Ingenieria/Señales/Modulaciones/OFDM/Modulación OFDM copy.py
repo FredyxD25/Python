@@ -1,58 +1,77 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Parámetros OFDM
+# Parámetros de la simulación
 num_subcarriers = 64  # Número de subportadoras
-num_symbols = 10      # Número de símbolos OFDM
-data_rate = 4         # Bits por símbolo (modulación QAM)
-sampling_rate = 1000  # Tasa de muestreo (Hz)
-cp_len = 16           # Longitud del prefijo cíclico
+num_symbols = 1000    # Número de símbolos OFDM
+mod_order = 4         # Orden de modulación (QPSK, mod_order=4)
 
-# Generar datos aleatorios
-num_bits = num_subcarriers * num_symbols * data_rate
-data_bits = np.random.randint(0, 2, num_bits)
+# Generación de datos aleatorios
+np.random.seed(42)  # Para reproducibilidad
+data = np.random.randint(0, mod_order, (num_subcarriers, num_symbols))
 
-# Mapeo de datos a símbolos QAM
-qam_order = 2 ** data_rate
-symbols = np.array([complex(i // np.sqrt(qam_order), i % np.sqrt(qam_order))
-                     for i in range(qam_order)])
-qam_symbols = symbols[np.packbits(data_bits).astype(int) % qam_order]
+# Función para asignar símbolos según la modulación (QPSK)
+def qpsk_modulation(bits):
+    mapping = {
+        0: 1 + 1j,
+        1: -1 + 1j,
+        2: -1 - 1j,
+        3: 1 - 1j
+    }
+    return np.array([mapping[bit] for bit in bits.flatten()]).reshape(bits.shape)
 
-# Generar señales OFDM
-ofdm_signal = np.zeros(num_subcarriers * num_symbols, dtype=complex)
-for i in range(num_symbols):
-    # Asignar los símbolos a las subportadoras
-    freq_data = qam_symbols[i * num_subcarriers:(i + 1) * num_subcarriers]
-    time_data = np.fft.ifft(freq_data)  # Transformada inversa de Fourier
-    # Agregar prefijo cíclico
-    time_data_cp = np.concatenate((time_data[-cp_len:], time_data))
-    ofdm_signal[i * len(time_data_cp):(i + 1) * len(time_data_cp)] = time_data_cp
+# Modulación QPSK
+symbols = qpsk_modulation(data)
 
-# Calcular amplitudes y ángulos de las señales
-amplitudes = np.abs(ofdm_signal)
-angles = np.angle(ofdm_signal)
+# Transformada Inversa de Fourier (IFFT) para obtener la señal OFDM
+time_signal = np.fft.ifft(symbols, axis=0)
 
-# Visualizar resultados
-plt.figure(figsize=(12, 8))
+# Canal (sin ruido para este ejemplo)
+received_signal = time_signal
 
-# Señal OFDM en el tiempo
-plt.subplot(3, 1, 1)
-plt.plot(np.real(ofdm_signal), label="Parte Real")
-plt.plot(np.imag(ofdm_signal), label="Parte Imaginaria")
-plt.title("Señal OFDM en el dominio del tiempo")
-plt.legend()
+# Transformada de Fourier (FFT) en el receptor
+received_symbols = np.fft.fft(received_signal, axis=0)
 
-# Amplitudes
-plt.subplot(3, 1, 2)
-plt.plot(amplitudes, label="Amplitud")
-plt.title("Amplitudes de la señal OFDM")
-plt.legend()
+# Normalización de los datos recibidos
+received_symbols /= np.sqrt(num_subcarriers)
 
-# Ángulos
-plt.subplot(3, 1, 3)
-plt.plot(angles, label="Ángulo")
-plt.title("Ángulos de la señal OFDM")
-plt.legend()
+# Gráfica de los fasores
+plt.figure(figsize=(20, 10))
+
+# Coordenadas de los fasores (QPSK)
+fasores = [1 + 1j, -1 + 1j, -1 - 1j, 1 - 1j]
+
+
+# Parámetros de la señal
+fs = 100  # Frecuencia de muestreo
+t1 = np.arange(0, 4, 1/fs)  # Tiempo de 0 a 1 segundo
+t2 = np.arange(4, 8, 1/fs)  # Tiempo de 0 a 1 segundo
+t3 = np.arange(8, 12, 1/fs)  # Tiempo de 0 a 1 segundo
+t4 = np.arange(12, 16, 1/fs)  # Tiempo de 0 a 1 segundo
+
+# Frecuencias
+fc = 1000  # Frecuencia de la portadora (Hz)
+fm = 100   # Frecuencia de la señal mensaje (Hz)
+
+# Señales
+Q1 =  1 * np.sin(2 * np.pi * t1) + 1 * np.cos(2 * np.pi * t2) 
+Q2 =  1 * np.sin(2 * np.pi * t2) - 1 * np.cos(2 * np.pi * t2) 
+Q3 = -1 * np.sin(2 * np.pi * t3) + 1 * np.cos(2 * np.pi * t3) 
+Q4 = -1 * np.sin(2 * np.pi * t4) - 1 * np.cos(2 * np.pi * t4) 
+
+# Señal Mensaje
+plt.subplot(1, 1, 1)
+plt.plot(t1, Q1, color='blue')
+plt.plot(t2, Q2, color='green')
+plt.plot(t3, Q3, color='red')
+plt.plot(t4, Q4, color='orange')
+
+plt.title('Señal Mensaje')
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Amplitud')
+plt.xlim(0,16)
+plt.ylim(-3,3)
+plt.grid()
 
 plt.tight_layout()
 plt.show()
