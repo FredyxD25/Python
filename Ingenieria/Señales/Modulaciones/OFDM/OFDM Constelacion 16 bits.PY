@@ -60,10 +60,7 @@ def constelacion():
     # Ajustar límites para evitar desbordes
     ax.set_xlim([np.min(data.real) - 1, np.max(data.real) + 1])
     ax.set_ylim([np.min(data.imag) - 1, np.max(data.imag) + 1])
-
-    # Ajustar diseño
-    plt.suptitle("Señales sinusoidales 16-QAM", fontsize=16)
-    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    plt.tight_layout()
     
 
 def señales():
@@ -85,7 +82,7 @@ def señales():
     fs = 1000  # Frecuencia de muestreo (Hz)
     f = 5      # Frecuencia de la portadora (Hz)
     t = np.linspace(0, duracion, int(fs * duracion), endpoint=False)  
-    dis_titulo = 1/3
+    dis_titulo = 0.15
     plt.figure(figsize=(20/1.5, 10/1.5))
     plt.subplot(1, 1, 1)
 
