@@ -1,6 +1,3 @@
-
-
-
 def calcular_crc(mensaje: str, polinomio: str) -> str:
     # Número de ceros a agregar (grado del polinomio)
     n = len(polinomio) - 1
