@@ -2,7 +2,6 @@
 
 
 def calcular_crc(mensaje: str, polinomio: str) -> str:
-    
     # Número de ceros a agregar (grado del polinomio)
     n = len(polinomio) - 1
     
@@ -25,12 +24,6 @@ def calcular_crc(mensaje: str, polinomio: str) -> str:
     return crc
 
 def binario_a_polinomio(binario: str) -> str:
-    """
-    Convierte una representación binaria de un polinomio CRC en su equivalente algebraico.
-
-    :param binario: Cadena de bits (ej. "1101" representa x^3 + x^2 + 1).
-    :return: Representación algebraica del polinomio en términos de x.
-    """
     # Obtener la longitud del polinomio
     grado = len(binario) - 1
     terminos = []
