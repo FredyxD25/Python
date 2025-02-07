@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # Ejemplo de uso:
     mensaje = "0000111101100100"  # Mensaje binario de entrada
     generador = "11000000000000101"          # Polinomio generador (por ejemplo, x^3 + x + 1)
-    
+    #1010001101011011
     resultado_crc = calcular_crc(mensaje, generador)
     print("El CRC del mensaje es:", resultado_crc)
     

@@ -5,14 +5,14 @@ class CRC_GUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Calculadora CRC")
-        self.root.geometry("400x350")
+        self.root.geometry("400x400")
         self.root.resizable(False, False)
 
         # Selección de CRC
-        self.tipo_crc = tk.StringVar(value="CRC-32")
+        self.tipo_crc = tk.StringVar(value="CRC-16")
         ttk.Label(root, text="Selecciona el tipo de CRC:").pack(anchor="w", padx=10, pady=5)
 
-        opciones = ["CRC-32", "CRC-16"]
+        opciones = ["CRC-16", "CRC-32"]
         for opcion in opciones:
             ttk.Radiobutton(root, text=opcion, variable=self.tipo_crc, value=opcion, command=self.limpiar_polinomio).pack(anchor="w", padx=20)
 
@@ -55,7 +55,7 @@ class CRC_GUI:
             return len(value) <= 17  # Polinomio de 17 bits para CRC-16
         # Limita la longitud si CRC-32 está seleccionado
         if self.tipo_crc.get() == "CRC-32":
-            return len(value) <= 33  # Polinomio de 33 bits para CRC-16
+            return len(value) <= 33  # Polinomio de 33 bits para CRC-32
         
     def limpiar_polinomio(self):
         """ Borra el polinomio generador cuando se cambia el tipo de CRC. """
@@ -78,20 +78,29 @@ class CRC_GUI:
 
     def calcular_crc(self):
         logica = CRC_LOGICA()
-        binario = self.entry_binario.get()
-        texto = self.entry_texto.get()
-        polinomio_generador = self.entry_polinomio.get()
-        print (binario, polinomio_generador)
-        resultado_crc_binario = logica.calcular_crc(mensaje = binario, polinomio = polinomio_generador)
-        #resultado_crc_texto = logica.calcular_crc(self.entry_texto.get(), self.entry_polinomio.get())
-        print(resultado_crc_binario)
-        '''if self.entry_texto.cget("state") == "disabled":
-            resultado_crc = logica.calcular_crc(self.entry_binario.get(), self.entry_polinomio.get())
-        if self.entry_binario.cget("state") == "disabled":
-            resultado_crc = logica.calcular_crc(self.entry_texto.get(), self.entry_polinomio.get())'''
-        #self.resultado.set(resultado_crc)
-
+        try:          
+            if self.tipo_crc.get() == "CRC-16" and len(self.entry_polinomio.get()) == 17:
+                if self.entry_texto.get() != "":
+                    resultado_crc = logica.calcular_crc(self.entry_texto.get(), self.entry_polinomio.get())
+                if self.entry_binario.get() != "":
+                    resultado_crc = logica.calcular_crc(self.entry_binario.get(), self.entry_polinomio.get())
+                self.resultado.set(resultado_crc)
+                    
+            elif self.tipo_crc.get() == "CRC-32" and len(self.entry_polinomio.get()) == 33:
+                if self.entry_texto.get() != "":
+                    resultado_crc = logica.calcular_crc(self.entry_texto.get(), self.entry_polinomio.get())
+                if self.entry_binario.get() != "":
+                    resultado_crc = logica.calcular_crc(self.entry_binario.get(), self.entry_polinomio.get())
+                self.resultado.set(resultado_crc) 
+                
+            else:
+                self.resultado.set("Polinomio Generador Erroneo")
+            
+        except Exception as e:
+            print(f"Ocurrió un error: {e}")
+    
 class CRC_LOGICA:
+    @staticmethod
     def calcular_crc(mensaje: str, polinomio: str) -> str:
         # Número de ceros a agregar (grado del polinomio)
         n = len(polinomio) - 1
