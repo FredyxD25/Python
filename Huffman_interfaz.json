@@ -1,1 +1,1 @@
-{"Mensaje": "aleluya", "Codigo Huffman": {"y": "000", "e": "001", "l": "01", "a": "10", "u": "11"}, "Mensaje Codificado": "1001001011100010"}
+{"Mensaje": "AAAAAAAAAAAAAABBBBBBBBBBBBCCCCCCCDDDDDDRRRRRTTTT", "Codigo Huffman": {"a": "00", "c": "010", "d": "011", "b": "10", "r": "110", "t": "111"}, "Mensaje Codificado": "0000000000000000000000000000101010101010101010101010010010010010010010010011011011011011011110110110110110111111111111"}

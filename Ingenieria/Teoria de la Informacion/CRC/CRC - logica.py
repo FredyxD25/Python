@@ -61,11 +61,20 @@ if __name__ == "__main__":
     
     #---------------------
     # Ejemplo de uso:
-    texto = "Hola, mundo!"
+    texto = "Hola"
     
     # Convertir texto a bytes
     bytes_ascii = texto_a_bytes(texto)
     print("Texto a bytes:", bytes_ascii)
     
+    bytes_totales_ascci = ""
+            
+    bytes_ascii = texto_a_bytes(texto)
+
+    for num in bytes_ascii:
+        num = decimal_a_binario(num)
+        bytes_totales_ascci += str(num)
+        
+    print(bytes_totales_ascci)
     for num in bytes_ascii:
         print(f"Decimal: {num} -> Binario (8 bits): {decimal_a_binario(num)}")
