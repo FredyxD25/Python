@@ -1,55 +1,39 @@
-from machine import Pin, PWM, ADC
-import time
+import tkinter as tk
+from tkinter import ttk
 
-# Configuración del pin PWM
-carrier_frequency = 1000  # Frecuencia de la portadora en Hz
-duty_cycle_on = 512       # Ciclo de trabajo para señal alta (máximo es 1023)
-duty_cycle_off = 0        # Ciclo de trabajo para señal baja
-pin_pwm = 25              # Pin donde se genera la señal PWM (ajustar según hardware)
+class CRC_GUI:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Calculadora CRC")
+        self.root.geometry("400x350")
+        self.root.resizable(False, False)
 
+        # ... (el resto de la interfaz sigue igual)
 
+        # Resultado (campo de texto grande)
+        ttk.Label(root, text="Resultado:").pack(anchor="w", padx=10, pady=5)
 
-# Configuración del PWM en el pin
-pwm = PWM(Pin(pin_pwm))
-pwm.freq(carrier_frequency)
-pwm.duty(duty_cycle_off)  # Inicialmente apagado
+        # Crear un widget Text más grande para mostrar el resultado
+        self.entry_resultado = tk.Text(root, height=6, width=60, font=("Arial", 12), wrap=tk.WORD, state="disabled")
+        self.entry_resultado.pack(padx=30, pady=10, fill="x")
 
-# Configuración del ADC en el pin
-adc_pin = 36  # Pin para la entrada analógica (ajustar según el hardware)
-adc = ADC(Pin(adc_pin))  # Configura el pin como entrada analógica
-adc.atten(ADC.ATTN_11DB)  # Rango de lectura hasta ~3.6V
-adc.width(ADC.WIDTH_10BIT)  # Resolución de 10 bits (valores de 0 a 1023)
+        # Botón para calcular
+        ttk.Button(root, text="Calcular CRC", command=self.calcular_crc).pack(pady=10)
+    
+    def calcular_crc(self):
+        # Aquí va tu lógica para calcular el CRC
+        resultado_crc = "Resultado del CRC"  # Ejemplo de resultado
+        self.mostrar_resultado(resultado_crc)
 
-# Parámetros de muestreo
-sampling_frequency = 1000  # Frecuencia de muestreo en Hz
-sampling_interval = 1 / sampling_frequency  # Intervalo de muestreo en segundos
-num_samples = 100  # Número de muestras a capturar
+    def mostrar_resultado(self, resultado):
+        # Muestra el resultado en el widget Text
+        self.entry_resultado.config(state="normal")  # Cambia el estado a 'normal' para poder editarlo
+        self.entry_resultado.delete(1.0, tk.END)  # Elimina el texto anterior
+        self.entry_resultado.insert(tk.END, resultado)  # Inserta el nuevo resultado
+        self.entry_resultado.config(state="disabled")  # Vuelve a poner el estado a 'disabled' (solo lectura)
 
-# Almacenamiento de las muestras
-samples = []
-# Datos binarios que se transmitirán
-data = [1, 0, 1, 1, 0, 0, 1]  # Ejemplo de datos binarios
-bit_duration = 0.5  # Duración de cada bit en segundos
-muestras_maximas = 24
-try:
-    while True:
-        for bit in data:
-            if bit == 1:
-                pwm.duty(duty_cycle_on)  # Activa la portadora
-            else:
-                pwm.duty(duty_cycle_off)  # Desactiva la portadora
-            time.sleep(bit_duration)  # Mantiene el bit durante el tiempo especificado
-        time.sleep(1)  # Pausa entre transmisiones
-        print("Iniciando el muestreo de la senal...")
-
-        for _ in range(num_samples):
-            sample = adc.read()  # Leer el valor analógico
-            samples.append(sample)  # Guardar la muestra
-            time.sleep(sampling_interval)  # Esperar el tiempo de muestreo
-
-        print("Muestreo completado.")
-        print("Datos capturados:", samples)
-
-except KeyboardInterrupt:
-    pwm.deinit()  # Apaga el PWM al terminar
-    print("Modulación ASK finalizada.")
+# Crear la ventana principal y ejecutar la aplicación
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = CRC_GUI(root)
+    root.mainloop()
