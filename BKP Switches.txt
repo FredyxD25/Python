@@ -1,0 +1,120 @@
+
+
+
+Bloque 6
+
+Port         Name               Status       Vlan       Duplex  Speed Type
+Gi1/0/1      ext5007            notconnect   500          full    100 10/100/1000BaseTX
+Gi1/0/2      ext5053            notconnect   500          full    100 10/100/1000BaseTX
+Gi1/0/3                         notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/4      ext5029            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/5      ext5006            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/6      Ext5005            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/7      ext5009            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/8      Ext5003            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/9      ext5008            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/10                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/11                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/12                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/13                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/14                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/15                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/16                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/17                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/18                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/19     5030               notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/20                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/21     Ext5010            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/22     ext5000            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/23     ext5011            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/24                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/25     5032               notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/26     Ext5084            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/27     Ext5012            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/28                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/29     Ext5013            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/30     Ext5035            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/31     VoIP_5089          notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/32     ext_5043           notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/33     Ext5014            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/34                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/35     ext5015            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/36                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/37     WLANR_BL6_Decanatu notconnect   1            auto   auto 10/100/1000BaseTX
+
+Port         Name               Status       Vlan       Duplex  Speed Type
+Gi1/0/38     WLANR_BL6_Piso2    notconnect   1            auto   auto 10/100/1000BaseTX
+Gi1/0/39                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/40                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/41     Ext_5025           notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/42                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/43     Ext5004            notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/44                        notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/45                        notconnect   509          auto   auto 10/100/1000BaseTX
+Gi1/0/46                        notconnect   509          auto   auto 10/100/1000BaseTX
+Gi1/0/47     WLANR_BL6_Piso2    connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi1/0/48     WLANR_BL6_Decanatu connected    trunk      a-full a-1000 10/100/1000BaseTX
+Te1/1/1      TO_C9500-48Y_Twe_1 connected    trunk        full   1000 1000BaseSX SFP
+
+---------------------Bloque 11-----------------
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Gi1/0/1                      notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/2                      notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/3                      notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/4                      notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/5                      connected    500        a-full   a-10 10/100/1000BaseTX
+Gi1/0/6                      notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/7                      notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/8                      notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/9                      notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/10                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/11                     notconnect   500          auto   auto 10/100/1000BaseTX
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Gi1/0/12                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/13                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/14  6221               notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/15  UDIC3              notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/16                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/17                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/18                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/19                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/20                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/21                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/22                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/23                     notconnect   500          auto   auto 10/100/1000BaseTX
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Gi1/0/24                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/25                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/26                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/27                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/28  AULAS MULTIPLES    notconnect   521          auto   auto 10/100/1000BaseTX
+Gi1/0/29  AULAS MULTIPLES    notconnect   521          auto   auto 10/100/1000BaseTX
+Gi1/0/30                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/31                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/32                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/33                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/34                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/35                     notconnect   500          auto   auto 10/100/1000BaseTX
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Gi1/0/36                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/37                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/38                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/39                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/40  TRANSMISION_STREAM notconnect   521          auto   auto 10/100/1000BaseTX
+Gi1/0/41                     notconnect   552          auto   auto 10/100/1000BaseTX
+Gi1/0/42                     notconnect   552          auto   auto 10/100/1000BaseTX
+Gi1/0/43  WLAN_Tec_BL11_P2_E connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi1/0/44  WLAN_BL11_P2_Futsa connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi1/0/45  UPS_TRIPPLITE_2.2K notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/46                     notconnect   500          auto   auto 10/100/1000BaseTX
+Gi1/0/47  WLAN_Tec_BL11_P2_P connected    trunk      a-full a-1000 10/100/1000BaseTX
+
+Port      Name               Status       Vlan       Duplex  Speed Type
+Gi1/0/48  WLAN_Tec_BL11_P1_U connected    trunk      a-full a-1000 10/100/1000BaseTX
+Gi1/0/50                     connected    trunk      a-full a-1000 1000BaseSX SFP
+Te1/0/1                      notconnect   1            full    10G Not Present
+Fa0                          disabled     routed       auto   auto 10/100BaseTX

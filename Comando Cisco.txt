@@ -1,0 +1,56 @@
+
+sh inter Status
+sh run inter gigabitEthernet 0/21
+inter range gigabitEthernet 1/0/28 - 41
+
+default inter  gi1/0/42
+
+sh lldp neighbors
+sh lldp neighbors gigabitEthernet 1/0/48 deatil
+
+interface GigabitEthernet1/0/45
+ description WLAN_Tec_BL11_P2_Externo
+ switchport mode trunk
+ ip dhcp snooping trust
+end
+
+
+interface GigabitEthernet1/0/46
+ description WLAN_BL11_P2_Futsal
+ switchport mode trunk
+ ip dhcp snooping trust
+end
+
+interface GigabitEthernet1/0/36
+ switchport access vlan 500
+ switchport mode access
+ switchport port-security maximum 3
+ switchport port-security violation restrict
+ switchport port-security aging time 2
+ switchport port-security aging type inactivity
+ switchport port-security
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+ shut
+ no shut
+end
+
+switchport access vlan 521
+ switchport mode access
+ switchport port-security maximum 3
+ switchport port-security violation restrict
+ switchport port-security aging time 2
+ switchport port-security aging type inactivity
+ switchport port-security
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+ shut
+ no shut
+end
+
+TEC_BL12_P2_TR      Gi1/0/50       92         B               Gi0/45
+Tec_BL11_P1_UDIC    Gi1/0/48       116        B,W,R           903a.7224.dc90
+Tec_BL11_FutsalExterGi1/0/46       95         B,W,R           0cf4.d53e.5660
+Tec_BL11_P2_Externo Gi1/0/45       104        B,W,R           0cf4.d517.6390
+Tec_BL11_P2_Pasillo Gi1/0/47       108        B,W,R           743e.2b3e.7f20
+842b.2bbf.1f29      Gi1/0/43       2909                       842b.2bbf.1f29
