@@ -1,39 +1,70 @@
-import tkinter as tk
-from tkinter import ttk
+import logging
+import feedparser
+import asyncio
 
-class CRC_GUI:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Calculadora CRC")
-        self.root.geometry("400x350")
-        self.root.resizable(False, False)
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes
 
-        # ... (el resto de la interfaz sigue igual)
+# Configuración del bot
+TOKEN = "7528210835:AAHG-L-1xuv_xK-UBaWRxM0ySE9tNBHflh8"
+NEWS_FEED_URL = "https://rss.app/feeds/CgegXHpAPvk6jVH3.xml"
 
-        # Resultado (campo de texto grande)
-        ttk.Label(root, text="Resultado:").pack(anchor="w", padx=10, pady=5)
+# Almacenar noticias enviadas para evitar duplicados
+sent_articles = set()
 
-        # Crear un widget Text más grande para mostrar el resultado
-        self.entry_resultado = tk.Text(root, height=6, width=60, font=("Arial", 12), wrap=tk.WORD, state="disabled")
-        self.entry_resultado.pack(padx=30, pady=10, fill="x")
+# Configurar logging
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+logger = logging.getLogger(__name__)
 
-        # Botón para calcular
-        ttk.Button(root, text="Calcular CRC", command=self.calcular_crc).pack(pady=10)
+# Función para obtener noticias
+def get_latest_news():
+    feed = feedparser.parse(NEWS_FEED_URL)
+    articles = []
     
-    def calcular_crc(self):
-        # Aquí va tu lógica para calcular el CRC
-        resultado_crc = "Resultado del CRC"  # Ejemplo de resultado
-        self.mostrar_resultado(resultado_crc)
+    for entry in feed.entries:
+        title = entry.title
+        link = entry.link
+        if link not in sent_articles:  # Verificar si ya se envió
+            sent_articles.add(link)
+            articles.append(f"📰 *{title}*\n🔗 {link}")
+    
+    return articles
 
-    def mostrar_resultado(self, resultado):
-        # Muestra el resultado en el widget Text
-        self.entry_resultado.config(state="normal")  # Cambia el estado a 'normal' para poder editarlo
-        self.entry_resultado.delete(1.0, tk.END)  # Elimina el texto anterior
-        self.entry_resultado.insert(tk.END, resultado)  # Inserta el nuevo resultado
-        self.entry_resultado.config(state="disabled")  # Vuelve a poner el estado a 'disabled' (solo lectura)
+# Comando /start
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("¡Hola! Te enviaré noticias de tecnología automáticamente.")
 
-# Crear la ventana principal y ejecutar la aplicación
+# Enviar noticias nuevas
+async def send_news(context: ContextTypes.DEFAULT_TYPE):
+    chat_id = context.job.chat_id  # Obtener el chat donde se ejecutó /start
+    news = get_latest_news()
+    
+    for article in news:
+        await context.bot.send_message(chat_id=chat_id, text=article, parse_mode="Markdown")
+
+# Configurar verificación automática cada 10 min
+async def news_loop(application: Application):
+    while True:
+        job_queue = application.job_queue
+        for job in job_queue.jobs():
+            job.schedule_removal()  # Eliminar tareas anteriores
+
+        job_queue.run_repeating(send_news, interval=600, first=5)
+        await asyncio.sleep(600)  # Esperar 10 min antes de reprogramar
+
+# Iniciar bot
+def main():
+    application = Application.builder().token(TOKEN).build()
+    
+    application.add_handler(CommandHandler("start", start))
+    
+    # Ejecutar la verificación de noticias en segundo plano dentro del loop correcto
+    loop = asyncio.get_event_loop()
+    loop.create_task(news_loop(application))
+
+    application.run_polling()  # Mantiene el bot en ejecución
+
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = CRC_GUI(root)
-    root.mainloop()
+    main()

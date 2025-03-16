@@ -95,8 +95,8 @@ class CRC_GUI:
         self.entry_resultado.insert(tk.END, f"Polinomio Tx: {polinomio_tx}\n")
         
     def comparaciones(self):
-        # Importar funciones de CRC_LOGICA()
-        logica = CRC_LOGICA() 
+        # Importar funciones de CRC_LOGICA
+        logica = CRC_LOGICA 
         
         if self.entry_binario.get() != "":
             resultado_crc = logica.calcular_crc(self.entry_binario.get(), self.entry_polinomio.get())
@@ -151,7 +151,7 @@ class CRC_GUI:
             self.entry_resultado.insert(tk.END,f"Ocurrió un error: {e}")
     
 class CRC_LOGICA:
-    @staticmethod
+    
     def calcular_crc(mensaje: str, polinomio: str) -> str:
         # Número de ceros a agregar (grado del polinomio)
         n = len(polinomio) - 1
@@ -174,7 +174,6 @@ class CRC_LOGICA:
         crc = ''.join(str(bit) for bit in mensaje_lista[-n:])
         return crc
     
-    @staticmethod
     def binario_a_polinomio(binario: str) -> str:
         # Obtener la longitud del polinomio
         grado = len(binario) - 1
@@ -193,12 +192,10 @@ class CRC_LOGICA:
 
         # Unir los términos con " + "
         return " + ".join(terminos)
-    
-    @staticmethod
+
     def texto_a_bytes(texto: str) -> list:
         return [ord(caracter) for caracter in texto]
     
-    @staticmethod
     def decimal_a_binario(numero: int) -> str:
         if 0 <= numero <= 255:
             return format(numero, '08b')  # Convierte a binario y rellena con ceros hasta 8 bits
