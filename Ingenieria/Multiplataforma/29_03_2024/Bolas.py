@@ -21,11 +21,10 @@ if __name__ == "__main__":
     Aplicacion = Tk()
     canvas = Canvas(Aplicacion, width=400, height=300, bg="white")
     canvas.pack(expand=YES, fill=BOTH)
-
     
     x = 0
     
-  
     mover()
+
     
     Aplicacion.mainloop()
